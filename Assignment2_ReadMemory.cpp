@@ -1,3 +1,8 @@
+#include<iostream>
+#include<omp.h>
+#include<immintrin.h>
+#include<iostream>
+#include<chrono>
 #include<ctime>
 
 using namespace std;
