@@ -7,7 +7,7 @@
 
 using namespace std;
 using namespace std::chrono;
-static int size=250000;
+
 __m256 avx_memoryRead(float* array, int size) 
 {
   __m256 sum = _mm256_set1_ps(0);
@@ -28,7 +28,8 @@ int main()
 
   #pragma omp parallel
   {
-    static float array[250000];
+    int size=250000;
+    float *array = (float*)malloc(sizeof(float) * size);
     for(int j=0;j<size;j++)
     array[j]=1;
     double bw=0;
