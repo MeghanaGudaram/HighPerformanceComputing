@@ -28,9 +28,9 @@ int main()
 
   #pragma omp parallel
   {
-    int size=250000;
-    float *array = (float*)malloc(sizeof(float) * size);
-    for(int j=0;j<size;j++)
+    int size=262144; // 256KB is taken as size
+    float *array = (float*)malloc(sizeof(float) * size); // Allocating memory in heap
+    for(int j=0;j<size;j++) // Initialize array to 1
     array[j]=1;
     double bw=0;
     __m256 val= _mm256_set1_ps(0);
@@ -42,8 +42,8 @@ int main()
     }
        high_resolution_clock::time_point t2 = high_resolution_clock::now();
        duration<double> time_span = duration_cast<duration<double>> (t2 - t1);
-
-       printf(" Time taken for 100 operations of %d bytes : %lf BW = %lf GB/s\n",size*4,time_span.count(), (size*4*100)/(1000000000 * time_span.count()));
+       bw = (size*4*100)/(1000000000 * time_span.count());
+       printf(" Time taken for 100 operations of %d bytes : %lf BW = %lf GB/s\n", size*4, time_span.count(), bw);
        printf("value %f\n",val[0]);
 
   }
