@@ -1,4 +1,4 @@
-#include<iostream>
+#include<stdio.h>
 #include<omp.h>
 #include<immintrin.h>
 #include<iostream>
@@ -14,7 +14,7 @@ __m256 avx_memoryWrite(float* array, int size)
 
     for (int i = 0; i < size; i=i+8)
     {
-	_mm256_store_ps(&array[i],sum);
+	_mm256_store_ps(&array[i],sum); // strore a value implies writing into memory
     }
 
     return sum;
@@ -24,7 +24,7 @@ int main()
 #pragma omp parallel
 {
 
-    static int size=100000;
+    static int size=1000000; // size of 4000000 bytes and not 40MB
     float *array=(float*)malloc(sizeof(float) * size);
     for(int j=0;j<size;j++)
     array[j]=1;
@@ -35,7 +35,7 @@ int main()
 
     for(int i=0;i<100;i++)
     {
-		val=avx_memoryWrite(array,size);
+		val=avx_memoryWrite(array,size); // function call to make sure code is not optimized
     }
     high_resolution_clock::time_point t2 = high_resolution_clock::now();
     duration<double> time_span = duration_cast<duration<double>> (t2 - t1);
