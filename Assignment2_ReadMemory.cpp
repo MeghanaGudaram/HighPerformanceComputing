@@ -14,11 +14,11 @@ __m256 avx_memoryRead(float* array, int size)
   
   for (int i = 0; i < (size * sizeof(int)) / sizeof(__m256i); i++)
   {
-        sum= _mm256_add_ps(_mm256_loadu_ps(&array[i+8]),sum);
+        sum= _mm256_add_ps(_mm256_loadu_ps(&array[i+8]),sum); // Adding elements to sum, impying read from memory
   }
-        sum=_mm256_hadd_ps(sum,sum);
-        sum=_mm256_hadd_ps(sum,sum);
-        sum=_mm256_hadd_ps(sum,sum);
+        sum=_mm256_hadd_ps(sum,sum); // Horizonatal addition of vector values i.e. vect1=vect0+vect0
+        sum=_mm256_hadd_ps(sum,sum); // Horizonatal addition of vector values i.e. vect2 =vect1+vect1
+        sum=_mm256_hadd_ps(sum,sum); // Horizonatal addition of vector values i.e. vect3=vect2+vect2
 
 return sum;
 }
@@ -38,11 +38,11 @@ int main()
     high_resolution_clock::time_point t1 = high_resolution_clock::now();
     for(int i=0;i<100;i++)
     {
-       val=avx_memoryRead(array,size);
+       val=avx_memoryRead(array,size); // function call to make sure loops are not optimized
     }
        high_resolution_clock::time_point t2 = high_resolution_clock::now();
        duration<double> time_span = duration_cast<duration<double>> (t2 - t1);
-       bw = (size*4*100)/(1000000000 * time_span.count());
+       bw = (size*4*100)/(1000000000 * time_span.count()); // Bandwidth is size in bytes / time in seconds i.e. scaled to GB/s
        printf(" Time taken for 100 operations of %d bytes : %lf BW = %lf GB/s\n", size*4, time_span.count(), bw);
        printf("value %f\n",val[0]);
 
