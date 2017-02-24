@@ -25,7 +25,7 @@ int main()
 {
 #pragma omp parallel
 	{
-		int size=50000000;
+		int size=1000000; // Size is 4000000 bytes and not 40MB
 		float *array=(float*)malloc(sizeof(float) * size);
 		for(int j=0;j<size;j++)
 			array[j]=1;
