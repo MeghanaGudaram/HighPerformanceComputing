@@ -13,7 +13,7 @@ __m256 avx_memoryRead(float* array, int size)
 	int j=0;
 	__m256 sum = _mm256_set1_ps(0);
 
-	for (int i = 0; i < (size * sizeof(int)) / sizeof(__m256i); i++)
+	for (int i = 0; i < size ; i=i+8)
     	{
 		__m256 vect = _mm256_load_ps(&array[i]); // load and store implies read and write operations
         	_mm256_store_ps((float*)&vect,sum);
