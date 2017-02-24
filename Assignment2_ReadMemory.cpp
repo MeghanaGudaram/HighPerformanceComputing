@@ -11,7 +11,7 @@ using namespace std::chrono;
 __m256 avx_memoryRead(float* array, int size) 
 {
   __m256 sum = _mm256_set1_ps(0);
-
+  
   for (int i = 0; i < (size * sizeof(int)) / sizeof(__m256i); i++)
   {
         sum= _mm256_add_ps(_mm256_loadu_ps(&array[i+8]),sum);
