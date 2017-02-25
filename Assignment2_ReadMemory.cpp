@@ -29,7 +29,8 @@ int main()
   #pragma omp parallel
   {
     int size=262144; // 256KB is taken as size
-    float *array = (float*)malloc(sizeof(float) * size); // Allocating memory in heap
+    float *array;
+    int status=posix_memalign((void**) &array, 32 , size*sizeof(float)); // Allocating memory
     for(int j=0;j<size;j++) // Initialize array to 1
     array[j]=1;
     double bw=0;
