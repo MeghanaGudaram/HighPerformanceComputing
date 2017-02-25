@@ -24,7 +24,8 @@ int main()
 #pragma omp parallel
 	{
 		int size=1000; // Size is 4000 bytes and not 4KB
-		float *array=(float*)malloc(sizeof(float) * size);
+		float *array;
+		int status=posix_memalign((void**) &array, 32 , size*sizeof(float));
 		for(int j=0;j<size;j++)
 			array[j]=1;
 		__m256 val= _mm256_set1_ps(0);
