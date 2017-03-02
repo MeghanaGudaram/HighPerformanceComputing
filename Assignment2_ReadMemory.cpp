@@ -14,7 +14,7 @@ __m256 avx_memoryRead(float* array, int size)
   
   for (int i = 0; i < size ; i=i+8)
   {
-        sum= _mm256_add_ps(_mm256_loadu_ps(&array[i]),sum); // Adding elements to sum, impying read from memory
+        sum= _mm256_add_ps(_mm256_load_ps(&array[i]),sum); // Adding elements to sum, impying read from memory
   }
         sum=_mm256_hadd_ps(sum,sum); // Horizonatal addition of vector values i.e. vect1=vect0+vect0
         sum=_mm256_hadd_ps(sum,sum); // Horizonatal addition of vector values i.e. vect2 =vect1+vect1
