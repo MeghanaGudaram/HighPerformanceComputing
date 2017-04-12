@@ -21,20 +21,31 @@ float kt(float w)
 
 int main(int argc, char *argv[])
 {
-        FILE *fin;
-        fin=fopen(argv[1],"r");
+        if(argc < 3)
+        {
+                printf("Pattern is: \nboundary.txt res_bw.txt file.txt\n");
+                return 0;
+        }
+        FILE *fin1, *fin2, *fin3;
+        fin1=fopen(argv[1],"r");
+        fin2=fopen(argv[2],"r");
+        fin3=fopen(argv[3],"r");
         long int i=0;
-        float hs=1.0, xi=1.0, yi=1.0;
-        int ht=7, ti=7; //low res low bw
-
-        while(fscanf(fin,"%f %f %d",&Xval[i], &Yval[i], &Tval[i])==3)
+        float hsx, hsy, X, Y, lowbx, lowby, highbx, highby, resx, resy;
+        int ht, T, lowbt, highbt, rest; //low res low bw
+        fscanf(fin1,"%f %f %d %f %f %d",&lowbx, &highbx, &lowby, &highby, &lowbt, &highbt);
+        fscanf(fin2,"%f %f %d %f %f %d",&resx, &resy, &rest, &hsx, &hsy, &ht)
+        while(fscanf(fin3,"%f %f %d",&Xval[i], &Yval[i], &Tval[i])==3)
         {
                 i++;
         }
 
         for(int k=0; k<i; k++)
         {
-                Fval[k]=ks((Xval[k]-xi)/hs, (Yval[k]-yi)/hs)*kw((Tval[k]-ti)/ht);
+                for(X=lowbx, Y=lowby, T=lowbt;();X+=resx, Y+=resy, T+=rest)
+                {
+                        Fval[k]=ks((X-Xval[k])/hs, (Y-Yval[k])/hs)*kw((T-Tval[k])/ht);
+                }
         }
         return 0;
 }
